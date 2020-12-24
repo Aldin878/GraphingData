@@ -27,11 +27,7 @@ public class PartiesApplication extends Application {
             }
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
-        }
-       
-        for(String piece: holder) {
-            System.out.println(piece);
-        }
+        } 
     }
 
     public static void main(String[] args) {
