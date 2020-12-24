@@ -18,6 +18,7 @@ public class PartiesApplication extends Application {
         NumberAxis xAxis = new NumberAxis(1968, 2008, 4);
         NumberAxis yAxis = new NumberAxis();
         ArrayList<String> data = getData();
+        ArrayList<Integer> years = getYears(data);
 
         xAxis.setLabel("Year");
         yAxis.setLabel("Relative support (%)");
