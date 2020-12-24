@@ -21,23 +21,21 @@ public class PartiesApplication extends Application {
                 String line = scanner.nextLine();
                 
                 pieces = line.split("\t");
-              
+                
+                holder.addAll(Arrays.asList(pieces));
+                
             }
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-        
-        
-        for(int i = 0; i < pieces.length; i++) {
-            holder.add(pieces[i]);
+       
+        for(String piece: holder) {
+            System.out.println(piece);
         }
-        
-        System.out.println(holder.get(0));
-        
     }
 
     public static void main(String[] args) {
-
+        launch(PartiesApplication.class);
     }
 
 }
