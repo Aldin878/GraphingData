@@ -28,9 +28,8 @@ public class PartiesApplication extends Application {
 
         LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
         lineChart.setTitle("Relative support in the years 1968-2008");
-        
-        System.out.println(partySupport.get("SDP"))
-;    }
+        ;
+    }
 
     public static void main(String[] args) {
         launch(PartiesApplication.class);
@@ -79,18 +78,27 @@ public class PartiesApplication extends Application {
     public static HashMap<String, HashMap<Integer, Double>> getPartySupport(ArrayList<Integer> years, ArrayList<String> data) {
         HashMap<Integer, Double> values = new HashMap<>();
         HashMap<String, HashMap<Integer, Double>> partySupport = new HashMap<>();
+        ArrayList<String> names = new ArrayList<>();
+        int count = 0;
 
         for (int i = 0; i < years.size(); i++) {
-            for (int j = 13; j < data.size(); j+= 12) {
-                if (data.get(j).equals("-")) {
+            for (int j = 0; j < data.size(); j++) {
+                if(data.get(i).equals("-")) {
                     continue;
                 }
-                values.put(years.get(i), Double.valueOf(data.get(j)));
+                
+                Double value = Double.parseDouble(data.get(i));
+                
+                values.put(years.get(i), value);
             }
-        }
-
-        for (int i = 12; i < data.size(); i+= 12) {
-            partySupport.put(data.get(i), values);
+            
+            for (int k = 12; k < data.size(); k += 12) {
+                names.add(data.get(k));
+            }
+            
+            for(String name : names) {
+                System.out.println(name);
+            }
         }
 
         return partySupport;
