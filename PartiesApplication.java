@@ -125,7 +125,7 @@ public class Main extends Application {
        }
 
 
-        System.out.println(yearsRatings.get(0));
+        System.out.println(yearsRatings.get(1980));
 
 
        return yearsRatings;
