@@ -31,12 +31,13 @@ public class Main extends Application {
         ArrayList<Integer> intHolder = new ArrayList<>();
         ArrayList<Double> doubleHolder = new ArrayList<>();
         HashMap<Integer, Double> testHolder = new HashMap<>();
-        
+
         data = getData();
         holder = getParties(data);
+        intHolder = getYears(data);
         doubleHolder = getRatings(data);
 
-        graphData();
+        testHolder = graphData(doubleHolder, holder, intHolder);
 
     }
 
@@ -111,17 +112,20 @@ public class Main extends Application {
        HashMap<Integer, Double> yearsRatings = new HashMap<>();
        HashMap<String, HashMap<Integer,Double>> partyYearData  = new HashMap<>();
        int yearCount = 0;
-       for(int i = 0; i < ratingData.size();i++) {
-            yearsRatings.put(years.get(yearCount), ratingData.get(0));
-            yearCount++;
 
-            if(yearCount == years.size() - 1) {
+
+       for(int i = 0; i < ratingData.size();i++) {
+
+           if(yearCount == years.size()) {
                 yearCount = 0;
-            }
+           }
+
+           yearsRatings.put(years.get(yearCount), ratingData.get(i));
+           yearCount++;
        }
 
 
-        System.out.println(yearsRatings.get(1980));
+        System.out.println(yearsRatings.get(0));
 
 
        return yearsRatings;
