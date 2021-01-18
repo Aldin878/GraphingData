@@ -30,13 +30,14 @@ public class Main extends Application {
         ArrayList<String> holder = new ArrayList<>();
         ArrayList<Integer> intHolder = new ArrayList<>();
         ArrayList<Double> doubleHolder = new ArrayList<>();
-
+        HashMap<Integer, Double> testHolder = new HashMap<>();
+        
         data = getData();
         holder = getParties(data);
         doubleHolder = getRatings(data);
-        
-        
-        
+
+        graphData();
+
     }
 
     public static ArrayList<String> getData() {
@@ -48,8 +49,14 @@ public class Main extends Application {
             while(scanner.hasNextLine()) {
                 line = scanner.nextLine();
                 String[] pieces = line.split("\t");
-                data.addAll(Arrays.asList(pieces));
 
+                for(int i = 0; i < pieces.length;i++) {
+                    if(pieces[i].equals("-")) {
+                        pieces[i] = "0";
+                    }
+                }
+
+                data.addAll(Arrays.asList(pieces));
             }
         } catch(Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -98,6 +105,26 @@ public class Main extends Application {
         }
 
         return ratingData;
+    }
+
+    public static HashMap<Integer, Double> graphData(ArrayList<Double> ratingData,ArrayList<String> parties, ArrayList<Integer> years) {
+       HashMap<Integer, Double> yearsRatings = new HashMap<>();
+       HashMap<String, HashMap<Integer,Double>> partyYearData  = new HashMap<>();
+       int yearCount = 0;
+       for(int i = 0; i < ratingData.size();i++) {
+            yearsRatings.put(years.get(yearCount), ratingData.get(0));
+            yearCount++;
+
+            if(yearCount == years.size() - 1) {
+                yearCount = 0;
+            }
+       }
+
+
+        System.out.println(yearsRatings.get(1980));
+
+
+       return yearsRatings;
     }
 
     }
