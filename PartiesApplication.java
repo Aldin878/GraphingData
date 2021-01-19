@@ -109,26 +109,30 @@ public class Main extends Application {
     }
 
     public static HashMap<Integer, Double> graphData(ArrayList<Double> ratingData,ArrayList<String> parties, ArrayList<Integer> years) {
-       HashMap<Integer, Double> yearsRatings = new HashMap<>();
-       HashMap<String, HashMap<Integer,Double>> partyYearData  = new HashMap<>();
-       int yearCount = 0;
+        HashMap<Integer, Double> yearsRatings = new HashMap<>();
+        HashMap<String, HashMap<Integer, Double>> partyYearData = new HashMap<>();
+        int yearCount = 0;
+        int ratingCount = 0;
 
 
-       for(int i = 0; i < ratingData.size();i++) {
+        for (int j = 0; j < parties.size(); j++) {
+            ratingCount = 11*j;
 
-           if(yearCount == years.size()) {
-                yearCount = 0;
-           }
+            for (; ratingCount < ratingData.size(); ratingCount++) {
 
-           yearsRatings.put(years.get(yearCount), ratingData.get(i));
-           yearCount++;
-       }
+                if (yearCount == 11) {
+                    partyYearData.put(parties.get(j), yearsRatings);
+                    yearCount = 0;
+                }
+
+                yearsRatings.put(years.get(yearCount), ratingData.get(ratingCount));
+                yearCount++;
+            }
+        }
+
+            System.out.println(parties);
 
 
-        System.out.println(yearsRatings.get(1980));
-
-
-       return yearsRatings;
-    }
-
+            return yearsRatings;
+        }
     }
