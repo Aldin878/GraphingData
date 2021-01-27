@@ -8,37 +8,37 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.NumberAxis;
 import java.util.HashMap;
-
+import java.util.Map;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+
 public class Main extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception{
+    public void start(Stage stage) throws Exception {
 
+        ArrayList<String> file = new ArrayList<>();
+        ArrayList<String> parties = new ArrayList<>();
+        ArrayList<Integer> years = new ArrayList<>();
+        ArrayList<Double> rating = new ArrayList<>();
+        HashMap<String, HashMap<Integer, Double>> values = new HashMap<>();
 
+        file = getData();
+        parties = getParties(file);
+        years = getYears(file);
+        rating = getRatings(file);
 
+        values = graphData(rating, parties, years);
 
+        
     }
 
 
     public static void main(String[] args) {
-        ArrayList<String> data = new ArrayList<>();
-        ArrayList<String> holder = new ArrayList<>();
-        ArrayList<Integer> intHolder = new ArrayList<>();
-        ArrayList<Double> doubleHolder = new ArrayList<>();
-        HashMap<Integer, Double> testHolder = new HashMap<>();
-
-        data = getData();
-        holder = getParties(data);
-        intHolder = getYears(data);
-        doubleHolder = getRatings(data);
-
-        testHolder = graphData(doubleHolder, holder, intHolder);
-
+        launch(Main.class);
     }
 
     public static ArrayList<String> getData() {
@@ -46,20 +46,20 @@ public class Main extends Application {
         String line;
 
 
-        try(Scanner scanner = new Scanner(Paths.get("partiesdata.tsv"))) {
-            while(scanner.hasNextLine()) {
+        try (Scanner scanner = new Scanner(Paths.get("partiesdata.tsv"))) {
+            while (scanner.hasNextLine()) {
                 line = scanner.nextLine();
                 String[] pieces = line.split("\t");
 
-                for(int i = 0; i < pieces.length;i++) {
-                    if(pieces[i].equals("-")) {
+                for (int i = 0; i < pieces.length; i++) {
+                    if (pieces[i].equals("-")) {
                         pieces[i] = "0";
                     }
                 }
 
                 data.addAll(Arrays.asList(pieces));
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
 
@@ -90,13 +90,13 @@ public class Main extends Application {
         ArrayList<Double> ratingData = new ArrayList<>();
         int count = 0;
 
-        for(int i = 13; i < data.size(); i++) {
-            if(count == 11) {
+        for (int i = 13; i < data.size(); i++) {
+            if (count == 11) {
                 count = 0;
                 continue;
             }
 
-            if(data.get(i).equals("-")) {
+            if (data.get(i).equals("-")) {
                 count++;
                 continue;
             }
@@ -108,31 +108,26 @@ public class Main extends Application {
         return ratingData;
     }
 
-    public static HashMap<Integer, Double> graphData(ArrayList<Double> ratingData,ArrayList<String> parties, ArrayList<Integer> years) {
-        HashMap<Integer, Double> yearsRatings = new HashMap<>();
-        HashMap<String, HashMap<Integer, Double>> partyYearData = new HashMap<>();
-        int yearCount = 0;
-        int ratingCount = 0;
+    public static HashMap<String, HashMap<Integer, Double>> graphData(ArrayList<Double> ratingData, ArrayList<String> parties, ArrayList<Integer> years) {
+      HashMap<String, HashMap<Integer,Double>> partyYearData = new HashMap<>();
+      HashMap<Integer,Double> partyData = new HashMap<>();
+      int yearCount = 0;
+      int ratingCount = 0;
+      int partyCount = 0;
 
+      while(partyCount < parties.size()) {
+          partyData.put(years.get(yearCount), ratingData.get(ratingCount));
+          yearCount++;
+          ratingCount++;
 
-        for (int j = 0; j < parties.size(); j++) {
-            ratingCount = 11*j;
+          if(yearCount == 11) {
+              partyYearData.put(parties.get(partyCount), partyData);
+              partyCount++;
+              yearCount = 0;
+              partyData = new HashMap<>();
+          }
+      }
 
-            for (; ratingCount < ratingData.size(); ratingCount++) {
-
-                if (yearCount == 11) {
-                    partyYearData.put(parties.get(j), yearsRatings);
-                    yearCount = 0;
-                }
-
-                yearsRatings.put(years.get(yearCount), ratingData.get(ratingCount));
-                yearCount++;
-            }
-        }
-
-            System.out.println(parties);
-
-
-            return yearsRatings;
-        }
+        return partyYearData;
     }
+}
