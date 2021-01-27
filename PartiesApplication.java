@@ -7,12 +7,9 @@ import javafx.stage.Stage;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.NumberAxis;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Arrays;
-import java.util.Scanner;
+
+import java.util.*;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 
 public class Main extends Application {
@@ -24,16 +21,18 @@ public class Main extends Application {
         ArrayList<String> parties = new ArrayList<>();
         ArrayList<Integer> years = new ArrayList<>();
         ArrayList<Double> rating = new ArrayList<>();
-        HashMap<String, HashMap<Integer, Double>> values = new HashMap<>();
+        HashMap<String, HashMap<Integer, Double>> partyYearData = new HashMap<>();
 
         file = getData();
         parties = getParties(file);
         years = getYears(file);
         rating = getRatings(file);
 
-        values = graphData(rating, parties, years);
+        partyYearData = graphData(rating, parties, years);
 
-        
+        for(Map.Entry<String, HashMap<Integer,Double>> entry : partyYearData.entrySet()) {
+            System.out.println(entry);
+        }
     }
 
 
