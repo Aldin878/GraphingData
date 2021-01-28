@@ -1,7 +1,6 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.chart.LineChart;
@@ -16,23 +15,43 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        NumberAxis xAxis = new NumberAxis(1964, 2012,4);
+        NumberAxis yAxis = new NumberAxis();
+        LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+        ArrayList<String> file;
+        ArrayList<String> parties;
+        ArrayList<Integer> years;
+        ArrayList<Double> rating;
+        HashMap<String, HashMap<Integer, Double>> values;
 
-        ArrayList<String> file = new ArrayList<>();
-        ArrayList<String> parties = new ArrayList<>();
-        ArrayList<Integer> years = new ArrayList<>();
-        ArrayList<Double> rating = new ArrayList<>();
-        HashMap<String, HashMap<Integer, Double>> partyYearData = new HashMap<>();
+        xAxis.setLabel("Year");
+        yAxis.setLabel("Relative support (%)");
 
         file = getData();
         parties = getParties(file);
         years = getYears(file);
         rating = getRatings(file);
 
-        partyYearData = graphData(rating, parties, years);
+        values = graphData(rating, parties, years);
 
-        for(Map.Entry<String, HashMap<Integer,Double>> entry : partyYearData.entrySet()) {
-            System.out.println(entry);
-        }
+        HashMap<String, HashMap<Integer, Double>> finalValues = values;
+
+        values.keySet().stream().forEach(party -> {
+            XYChart.Series data = new XYChart.Series();
+            data.setName(party);
+            finalValues.get(party).entrySet().stream().forEach(pair -> {
+                        {
+                            data.getData().add(new XYChart.Data(pair.getKey(), pair.getValue()));
+                        }});
+
+                    lineChart.getData().add(data);
+        });
+
+
+        Scene view = new Scene(lineChart, 640, 480);
+        stage.setScene(view);
+        stage.show();
+
     }
 
 
