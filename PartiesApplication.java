@@ -6,7 +6,6 @@ import javafx.stage.Stage;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.NumberAxis;
-
 import java.util.*;
 import java.nio.file.Paths;
 
