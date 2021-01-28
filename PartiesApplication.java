@@ -31,27 +31,24 @@ public class Main extends Application {
         parties = getParties(file);
         years = getYears(file);
         rating = getRatings(file);
-
         values = graphData(rating, parties, years);
 
         HashMap<String, HashMap<Integer, Double>> finalValues = values;
-
+        
         values.keySet().stream().forEach(party -> {
             XYChart.Series data = new XYChart.Series();
             data.setName(party);
             finalValues.get(party).entrySet().stream().forEach(pair -> {
-                        {
-                            data.getData().add(new XYChart.Data(pair.getKey(), pair.getValue()));
-                        }});
-
+                {
+                    data.getData().add(new XYChart.Data(pair.getKey(), pair.getValue()));
+                }});
+            
                     lineChart.getData().add(data);
         });
-
 
         Scene view = new Scene(lineChart, 640, 480);
         stage.setScene(view);
         stage.show();
-
     }
 
 
@@ -63,7 +60,6 @@ public class Main extends Application {
         ArrayList<String> data = new ArrayList<>();
         String line;
 
-
         try (Scanner scanner = new Scanner(Paths.get("partiesdata.tsv"))) {
             while (scanner.hasNextLine()) {
                 line = scanner.nextLine();
@@ -74,7 +70,6 @@ public class Main extends Application {
                         pieces[i] = "0";
                     }
                 }
-
                 data.addAll(Arrays.asList(pieces));
             }
         } catch (Exception e) {
